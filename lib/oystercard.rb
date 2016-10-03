@@ -9,8 +9,13 @@ attr_reader :balance, :max_limit
   end
 
   def top_up(value)
-    raise "balance cannot exceed #{@max_limit} pounds" if @balance + value >= 90
+    raise "balance cannot exceed #{@max_limit} pounds" if @balance + value > 90
     @balance += value
+  end
+
+  def deduct(value)
+    raise "do not have enough money" if @balance < value
+    @balance -= value
   end
 
 end

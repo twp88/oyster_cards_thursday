@@ -10,6 +10,11 @@ describe OysterCard do
 
   it 'raises an error if balance is more than 90' do
     card.top_up(90)
-    expect {card.top_up(5)}.to raise_error "balance cannot exceed 90 pounds"
+    expect {card.top_up(5)}.to raise_error "balance cannot exceed #{OysterCard::MAX_LIMIT} pounds"
+  end
+
+  it 'deducts value from the balance' do
+    expect(card).to respond_to(:deduct)
+    expect {card.deduct(1)}.to raise_error "do not have enough money"
   end
 end
