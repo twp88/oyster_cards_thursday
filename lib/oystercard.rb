@@ -16,21 +16,27 @@ attr_reader :balance, :max_limit
     @balance += value
   end
 
-  def deduct(value)
-    raise "can't deduct less than balance" if @balance < value
-    @balance -= value
-  end
-
   def touch_in
     raise "do not have enough money" if @balance < MIN_FARE
+    raise "need to touch out first" if @in_use == true
     @in_use = true
   end
 
   def touch_out
+    raise "need to touch in first" if @in_use == false
     @in_use = false
+    deduct(MIN_FARE)
   end
 
   def in_journey?
     @in_use
   end
+
+  private
+
+  def deduct(value)
+    raise "can't deduct less than balance" if @balance < value
+    @balance -= value
+  end
+
 end
