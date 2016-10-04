@@ -1,8 +1,9 @@
 class OysterCard
   MAX_LIMIT = 90
   BALANCE = 0
+  MIN_FARE = 1
 
-attr_reader :balance, :max_limit, :in_use
+attr_reader :balance, :max_limit
 
   def initialize(max_limit = MAX_LIMIT, balance = BALANCE)
     @max_limit = max_limit
@@ -10,19 +11,18 @@ attr_reader :balance, :max_limit, :in_use
     @in_use = false
   end
 
-
-
   def top_up(value)
     raise "balance cannot exceed #{@max_limit} pounds" if @balance + value > 90
     @balance += value
   end
 
   def deduct(value)
-    raise "do not have enough money" if @balance < value
+    raise "can't deduct less than balance" if @balance < value
     @balance -= value
   end
 
   def touch_in
+    raise "do not have enough money" if @balance < MIN_FARE
     @in_use = true
   end
 

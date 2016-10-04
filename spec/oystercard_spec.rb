@@ -25,7 +25,7 @@ describe OysterCard do
     context "when given a value to deduct" do
       it 'deducts value from the balance' do
         expect(card).to respond_to(:deduct)
-        expect {card.deduct(1)}.to raise_error "do not have enough money"
+        expect {card.deduct(1)}.to raise_error "can't deduct less than balance"
       end
     end
   end
@@ -33,8 +33,15 @@ describe OysterCard do
   describe "#touch_in" do
     context "when card touches in" do
       it "sets in_journey to true" do
+        card.top_up(1)
         card.touch_in
         expect(card.in_journey?).to be true
+      end
+    end
+
+    context "when balance is less than fare" do
+      it "raises an error" do
+        expect{card.touch_in}.to raise_error "do not have enough money"
       end
     end
   end
@@ -42,6 +49,7 @@ describe OysterCard do
   describe "#touch_out" do
     context "when card touches out" do
       it "sets in_journey to false" do
+        card.top_up(1)
         card.touch_in
         card.touch_out
         expect(card.in_journey?).to be false
@@ -55,24 +63,6 @@ describe OysterCard do
         expect(card.in_journey?).to be false
       end
     end
-
-
   end
 
-  # describe "#in_use" do
-  #   context "when card is touched in" do
-  #     it "@in_use is set to true" do
-  #       @station.touch_in(card)
-  #       expect(card.in_use).to eq true
-  #     end
-  #   end
-  #
-  #   context "when card is touched out" do
-  #     it "when touched out, @in_use is set to false" do
-  #       @station.touch_out(card)
-  #       expect(card.in_use).to eq false
-  #     end
-  #   end
-  # end
-
-end
+  end
