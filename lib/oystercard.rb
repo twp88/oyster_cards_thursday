@@ -18,4 +18,6 @@ attr_reader :balance, :max_limit
     @balance -= value
   end
 
+  def in_journey?
+  end
 end
