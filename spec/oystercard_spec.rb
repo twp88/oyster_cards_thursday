@@ -3,7 +3,7 @@ require 'oystercard'
 
 describe OysterCard do
   subject(:card) { described_class.new }
-  let(:station) { double :station }
+  let(:card_topped_up) { described_class.new(90, 1)}
 
   describe "#top_up" do
     context "when top_up is given a value" do
@@ -24,9 +24,8 @@ describe OysterCard do
   describe "#touch_in" do
     context "when card touches in" do
       it "sets in_journey to true" do
-        card.top_up(1)
-        card.touch_in
-        expect(card.in_journey?).to be true
+        card_topped_up.touch_in
+        expect(card_topped_up.in_journey?).to be true
       end
     end
 
@@ -38,9 +37,8 @@ describe OysterCard do
 
     context 'when already touched in' do
       it "raises an error" do
-        card.top_up(1)
-        card.touch_in
-        expect{ card.touch_in }.to raise_error "need to touch out first"
+        card_topped_up.touch_in
+        expect{ card_topped_up.touch_in }.to raise_error "need to touch out first"
       end
     end
   end
@@ -48,23 +46,20 @@ describe OysterCard do
   describe "#touch_out" do
     context "when card touches out" do
       it "sets in_journey to false" do
-        card.top_up(1)
-        card.touch_in
-        card.touch_out
-        expect(card.in_journey?).to be false
+        card_topped_up.touch_in
+        card_topped_up.touch_out
+        expect(card_topped_up.in_journey?).to be false
       end
 
       context 'when already touched out' do
         it "raises an error" do
-          card.top_up(1)
           expect{ card.touch_out }.to raise_error "need to touch in first"
         end
       end
 
       it "deducts the minimum fare from the balance" do
-        card.top_up(1)
-        card.touch_in
-        expect {card.touch_out}.to change{card.balance}.by(-(OysterCard::MIN_FARE))
+        card_topped_up.touch_in
+        expect {card_topped_up.touch_out}.to change{card_topped_up.balance}.by(-(OysterCard::MIN_FARE))
       end
     end
   end
@@ -77,4 +72,4 @@ describe OysterCard do
     end
   end
 
-  end
+end
