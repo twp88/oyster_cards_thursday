@@ -1,12 +1,9 @@
 require 'oystercard'
-require 'station'
+
 
 describe OysterCard do
-  subject(:card) {described_class.new}
-
-  before :each do
-    @station = Station.new
-  end
+  subject(:card) { described_class.new }
+  let(:station) { double :station }
 
   describe "#top_up" do
     context "when top_up is given a value" do
@@ -33,20 +30,49 @@ describe OysterCard do
     end
   end
 
-  describe "#in_use" do
-    context "when card is touched in" do
-      it "@in_use is set to true" do
-        @station.touch_in(card)
-        expect(card.in_use).to eq true
-      end
-    end
-
-    context "when card is touched out" do
-      it "when touched out, @in_use is set to false" do
-        @station.touch_out(card)
-        expect(card.in_use).to eq false
+  describe "#touch_in" do
+    context "when card touches in" do
+      it "sets in_journey to true" do
+        card.touch_in
+        expect(card.in_journey?).to be true
       end
     end
   end
+
+  describe "#touch_out" do
+    context "when card touches out" do
+      it "sets in_journey to false" do
+        card.touch_in
+        card.touch_out
+        expect(card.in_journey?).to be false
+      end
+    end
+  end
+
+  describe "#in_journey?" do
+    context "when card is initialized" do
+      it "it is not in journey" do
+        expect(card.in_journey?).to be false
+      end
+    end
+
+
+  end
+
+  # describe "#in_use" do
+  #   context "when card is touched in" do
+  #     it "@in_use is set to true" do
+  #       @station.touch_in(card)
+  #       expect(card.in_use).to eq true
+  #     end
+  #   end
+  #
+  #   context "when card is touched out" do
+  #     it "when touched out, @in_use is set to false" do
+  #       @station.touch_out(card)
+  #       expect(card.in_use).to eq false
+  #     end
+  #   end
+  # end
 
 end
