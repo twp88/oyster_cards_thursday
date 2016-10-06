@@ -54,29 +54,29 @@ describe OysterCard do
 
   describe "#touch_out" do
     context "when card touches out" do
-      it "sets in_journey to false" do
+      before :each do
         card_topped_up.touch_in(entry_station)
         card_topped_up.touch_out(exit_station)
+      end
+
+      it "sets in_journey to false" do
         expect(card_topped_up.entry_station).to be nil
       end
 
       it "exit station is not nil" do
-        card_topped_up.touch_in(entry_station)
-        card_topped_up.touch_out(exit_station)
         expect(card_topped_up.exit_station).not_to be nil
       end
 
       it "saves the exit station" do
-        card_topped_up.touch_in(entry_station)
-        card_topped_up.touch_out(exit_station)
         expect(card_topped_up.exit_station).to be exit_station
       end
+    end
 
       context 'when already touched out' do
         it "raises an error" do
           expect{ card.touch_out(exit_station) }.to raise_error "need to touch in first"
         end
-      end
+
 
       it "deducts the minimum fare from the balance" do
         card_topped_up.touch_in(entry_station)
@@ -94,21 +94,26 @@ describe OysterCard do
   end
 
   describe "#save_journeys" do
-    context "checks that new hash isn't empty" do
-      it "checks that new hash isn't empty" do
-        card_topped_up.touch_in(entry_station)
-        card_topped_up.touch_out(exit_station)
-        expect(card_topped_up.completed_journeys).not_to be nil
+    context "checks that hash" do
+      it "is empty when card is initialized" do
+        expect(card_topped_up.completed_journeys).to be {}
       end
     end
 
     context "when called" do
-      it "saves both stations to the hash" do
+      before :each do
         card_topped_up.touch_in(entry_station)
         card_topped_up.touch_out(exit_station)
+      end
+      
+      it "checks that new hash isn't empty" do
+        expect(card_topped_up.completed_journeys).not_to be nil
+      end
+
+      it "saves both stations to the hash" do
         expect(card_topped_up.completed_journeys["Journey #{card_topped_up.counter}"]).to eq [entry_station, exit_station]
       end
-    end
 
+    end
   end
 end
