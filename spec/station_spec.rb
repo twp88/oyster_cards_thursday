@@ -1,35 +1,18 @@
-# require 'station'
-# require 'oystercard'
-#
-# describe Station do
-#   subject(:station) { described_class.new }
-#
-#   before :each do
-#     @card = OysterCard.new
-#   end
+require "station"
 
-  # describe '#touch_in' do
-  #   context 'when given a card' do
-  #     it 'calls in journey on the card' do
-  #       expect(@card).to receive(:in_journey?)
-  #       station.touch_in(@card)
-  #     end
-  #   end
+describe Station do
 
-#     context "when given a card" do
-#       it "card.in_use is equal to true" do
-#         station.touch_in(@card)
-#         expect(@card.in_use).to eq true
-#       end
-#     end
-#   end
-#
-#   describe "#touch_out" do
-#     context "when given a card" do
-#       it "calls in journey on the card" do
-#         expect(@card).to receive(:in_journey?)
-#         station.touch_out(@card)
-#       end
-#     end
-#   end
-# end
+subject(:station) { described_class.new("test-name", "test-zone") }
+
+  describe "#initialize" do
+    context "when initialized with a name and a station" do
+      it "stores name in a variable" do
+        expect(station.name).to eq "test-name"
+      end
+
+      it "stores zone in a variable" do
+        expect(station.zone).to eq "test-zone"
+      end
+    end
+  end
+end
