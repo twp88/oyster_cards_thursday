@@ -3,15 +3,14 @@ class OysterCard
   BALANCE = 0
   MIN_FARE = 1
 
-attr_reader :balance, :max_limit, :entry_station, :exit_station, :completed_journeys, :counter
+attr_reader :balance, :max_limit, :entry_station, :exit_station, :journey
 
   def initialize(max_limit = MAX_LIMIT, balance = BALANCE)
     @max_limit = max_limit
     @balance = balance
     @entry_station = nil
     @exit_station = nil
-    @completed_journeys = {}
-    @counter = 0
+    @journey = Journey.new
   end
 
   def top_up(value)
@@ -28,7 +27,7 @@ attr_reader :balance, :max_limit, :entry_station, :exit_station, :completed_jour
   def touch_out(station)
     raise "need to touch in first" if @entry_station == nil
     @exit_station = station
-    save_journeys
+    @journey.save_journeys([entry_station, exit_station])
     @entry_station = nil
     deduct(MIN_FARE)
   end
@@ -36,11 +35,6 @@ attr_reader :balance, :max_limit, :entry_station, :exit_station, :completed_jour
   def in_journey?
     return true if @entry_station != nil
     false
-  end
-
-  def save_journeys
-    @counter += 1
-    @completed_journeys["Journey #{@counter}"] = [@entry_station, @exit_station]
   end
 
   private
