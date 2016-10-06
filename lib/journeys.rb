@@ -21,8 +21,17 @@ class Journeys
     @exit_station = station
   end
 
+  def fare
+    if @entry_station.zone > @exit_station.zone
+      @entry_station.zone - @exit_station.zone
+    else
+      @exit_station.zone - @entry_station.zone
+    end
+  end
+
   def in_journey?
     return true if @entry_station != nil
-      false
+    false
   end
+
 end

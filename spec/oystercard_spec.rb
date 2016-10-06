@@ -59,10 +59,6 @@ describe OysterCard do
         card_topped_up.touch_out(exit_station)
       end
 
-      # it "sets in_journey to false" do
-      #   expect(card_topped_up.in_journey?).to be nil
-      # end
-
       it "exit station is not nil" do
         expect(card_topped_up.journey.exit_station).not_to be nil
       end
@@ -85,13 +81,13 @@ describe OysterCard do
     end
   end
 
-  # describe "#in_journey?" do
-  #   context "when card is initialized" do
-  #     it "it is not in journey" do
-  #       expect(card.in_journey?).to be false
-  #     end
-  #   end
-  # end
+  describe "#in_journey?" do
+    context "when card is initialized" do
+      it "it is not in journey" do
+        expect(card.journey.in_journey?).to be false
+      end
+    end
+  end
 
 
 end
