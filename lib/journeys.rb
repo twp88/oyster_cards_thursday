@@ -8,9 +8,9 @@ class Journeys
     @exit_station = nil
   end
 
-  def save_journeys(station_array)
+  def save_journeys
     @counter += 1
-    @completed_journeys["Journey #{@counter}"] = station_array
+    @completed_journeys["Journey #{@counter}"] = [@entry_station, @exit_station]
   end
 
   def enter_station(station)
@@ -19,5 +19,10 @@ class Journeys
 
   def leave_station(station)
     @exit_station = station
+  end
+
+  def in_journey?
+    return true if @entry_station != nil
+      false
   end
 end

@@ -24,12 +24,12 @@ describe OysterCard do
   end
 
   describe "#touch_in" do
-    context "when card touches in" do
-      it "sets in_journey to true" do
-        card_topped_up.touch_in(entry_station)
-        expect(card_topped_up.in_journey?).to be true
-      end
-    end
+    # context "when card touches in" do
+    #   it "sets in_journey to true" do
+    #     card_topped_up.touch_in(entry_station)
+    #     expect(card_topped_up.in_journey?).to be true
+    #   end
+    # end
 
     context "when balance is less than fare" do
       it "raises an error" do
@@ -47,7 +47,7 @@ describe OysterCard do
     context "check entry station is saved" do
       it "station is saved" do
         card_topped_up.touch_in(entry_station)
-        expect(card_topped_up.entry_station).not_to be nil
+        expect(card_topped_up.journey.entry_station).not_to be nil
       end
     end
   end
@@ -59,16 +59,16 @@ describe OysterCard do
         card_topped_up.touch_out(exit_station)
       end
 
-      it "sets in_journey to false" do
-        expect(card_topped_up.entry_station).to be nil
-      end
+      # it "sets in_journey to false" do
+      #   expect(card_topped_up.in_journey?).to be nil
+      # end
 
       it "exit station is not nil" do
-        expect(card_topped_up.exit_station).not_to be nil
+        expect(card_topped_up.journey.exit_station).not_to be nil
       end
 
       it "saves the exit station" do
-        expect(card_topped_up.exit_station).to be exit_station
+        expect(card_topped_up.journey.exit_station).to be exit_station
       end
     end
 
@@ -85,13 +85,13 @@ describe OysterCard do
     end
   end
 
-  describe "#in_journey?" do
-    context "when card is initialized" do
-      it "it is not in journey" do
-        expect(card.in_journey?).to be false
-      end
-    end
-  end
+  # describe "#in_journey?" do
+  #   context "when card is initialized" do
+  #     it "it is not in journey" do
+  #       expect(card.in_journey?).to be false
+  #     end
+  #   end
+  # end
 
 
 end

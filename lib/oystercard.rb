@@ -25,13 +25,14 @@ attr_reader :balance, :max_limit, :journey
   def touch_out(station)
     raise "need to touch in first" if @journey.entry_station == nil
     @journey.leave_station(station)
+    @journey.save_journeys
     deduct(MIN_FARE)
   end
 
-  def in_journey?
-    return true if @entry_station != nil
-    false
-  end
+  # def in_journey?
+  #   return true if @journey.entry_station != nil
+  #   false
+  # end
 
   private
 
