@@ -93,4 +93,22 @@ describe OysterCard do
     end
   end
 
+  describe "#save_journeys" do
+    context "checks that new hash isn't empty" do
+      it "checks that new hash isn't empty" do
+        card_topped_up.touch_in(entry_station)
+        card_topped_up.touch_out(exit_station)
+        expect(card_topped_up.completed_journeys).not_to be nil
+      end
+    end
+
+    context "when called" do
+      it "saves both stations to the hash" do
+        card_topped_up.touch_in(entry_station)
+        card_topped_up.touch_out(exit_station)
+        expect(card_topped_up.completed_journeys["Journey #{card_topped_up.counter}"]).to eq [entry_station, exit_station]
+      end
+    end
+
+  end
 end
